@@ -69,10 +69,10 @@ class PythontutorMagics(Magics):
 
     # aliases just in case the naming would be confusing
     @cell_magic
-    def ipythontutor(*args):
+    def ipythontutor(self, *args):
         return self.pythontutor(*args)
     @cell_magic
-    def ipythontutor2(*args):
+    def ipythontutor2(self, *args):
         return self.pythontutor2(*args)
 
 
