@@ -1,55 +1,74 @@
+# -*- coding: utf-8 -*-
+
 """
 A jupyter extension that supports cell magics pythontutor
 and pythontutor2, for visualizing code in an iframe that
 leverages pythontutor.com
 
-Users have no way at this point to set width and height
-
-Examples
----
-%%pythontutor
-# partage d'une liste
-a = b = [1, 2, 3]
-a[0] = 'boom'
----
-ditto with %%pythontutor2 for using python2
----
+See README.ipynb for examples of how to use it
 """
+
+
 from urllib.parse import urlencode
 from ipywidgets import HTML
 
-# the actual magic
-def _link_to_pythontutor(code, py=3, width=900, height=500):
-    url = "http://pythontutor.com/visualize.html#"
-    d = dict(code = code,
-             cumulative = "false",
-             curInstr = 0,
-             heapPrimitives = "false",
-             mode = "display",
-             origin = "opt-frontend.js",
-             py=py,
-#             rawInputLstJSON = "[]",
-             textReferences = "false"
-    )
-    url += urlencode(d)
-    iframe = '''<iframe class="pythontutor" width="{width}" height="{height}"
-                src="{url}">'''.format(**locals())
-    return HTML(iframe)
+from IPython.core.magic import (
+    Magics,
+    magics_class,
+    cell_magic,
+    line_magic,
+)
 
-def link_to_pythontutor(line, cell):
-    return _link_to_pythontutor(cell, py=3)
 
-def link_to_pythontutor2(line, cell):
-    return _link_to_pythontutor(cell, py=2)
+####################
+# it seems like magics can't be called with arguments...
 
-def load_ipython_extension(shell):
-    shell.register_magic_function(link_to_pythontutor, 'cell', 'pythontutor')
-    shell.register_magic_function(link_to_pythontutor2, 'cell', 'pythontutor2')
+# if not for python2, could be set_sice(*, width=None, height=None)
+def set_size(width=None, height=None):
+    if width:
+        PythontutorMagics.width = width
+    if height:
+        PythontutorMagics.height = height
 
-def unload_ipython_extension(shell):
-    '''
-    Unregister the  magic when the extension unloads.
-    '''
-    del shell.magics_manager.magics['cell']['pythontutor']
-    del shell.magics_manager.magics['cell']['pythontutor2']
+        
+@magics_class
+class PythontutorMagics(Magics):
 
+    # tunable variables
+    width = 750
+    height = 350
+
+    # the actual magic
+    def _iframe_to_pythontutor(self, code, py=3, width=width, height=height):
+        url = "http://pythontutor.com/iframe-embed.html#"
+        d = dict(code = code,
+                 cumulative = "false",
+                 curInstr = 0,
+                 heapPrimitives = "false",
+                 mode = "display",
+                 origin = "opt-frontend.js",
+                 py=py,
+                 # rawInputLstJSON = "[]",
+                 textReferences = "false"
+        )
+        url += urlencode(d)
+        iframe = '''<iframe class="pythontutor" width="{self.width}" height="{self.height}"
+                    src="{url}">'''.format(**locals())
+        return HTML(iframe)
+
+    @cell_magic
+    def pythontutor(self, line, cell):
+        return self._iframe_to_pythontutor(cell, py=3)
+
+    @cell_magic
+    def pythontutor2(self, line, cell):
+        return self._iframe_to_pythontutor(cell, py=2)
+
+
+#################### make it an extension    
+def load_ipython_extension(ipython):
+    ipython.register_magics(PythontutorMagics)
+
+
+def unload_ipython_extension(ipython):
+    pass
