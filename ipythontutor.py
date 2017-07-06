@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
-A jupyter extension that supports cell magics pythontutor
-and pythontutor2, for visualizing code in an iframe that
-leverages pythontutor.com
+A ipython extension that supports cell magics:
+ * pythontutor, and
+ * pythontutor2
+for visualizing code in an iframe that leverages pythontutor.com
 
-See README.ipynb for examples of how to use it
+See README.ipynb for examples of how to use it.
 """
 
 
@@ -60,9 +61,20 @@ class PythontutorMagics(Magics):
     def pythontutor(self, line, cell):
         return self._iframe_to_pythontutor(cell, py=3)
 
+
     @cell_magic
     def pythontutor2(self, line, cell):
         return self._iframe_to_pythontutor(cell, py=2)
+
+
+    # aliases just in case the naming would be confusing
+    @cell_magic
+    def ipythontutor(*args):
+        return self.pythontutor(*args)
+    @cell_magic
+    def ipythontutor2(*args):
+        return self.pythontutor2(*args)
+
 
 
 #################### make it an extension    
