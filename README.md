@@ -1,7 +1,7 @@
 
 <span style="float:left;">Licence CC BY-NC-ND</span>
 
-# Embedding pythontutor illustrations in Jupyter  
+# Embedding `pythontutor.com` illustrations in Jupyter  
 
 ## Installation
 
@@ -13,7 +13,7 @@ $ pip3 install ipythontutor
 
 As github won't render iframes embedded in a `ipynb`, here's a screenshot
 
-![](screenshot.png)
+![](screenshot.gif)
 
 ## Basic Usage
 
@@ -37,18 +37,47 @@ print(reference)
 
 
 ```python
-# optional, if the defaults don't suit you
-import ipythontutor
-ipythontutor.set_size(height=500)
+%%ipythontutor height=400 width=1000
+def fact(n):
+    return 1 if n <= 1 else n * fact(n-1)
+original = [fact(3), fact(4)]
+reference = original[:]
+original[0] = 'boom'
+print(reference)
 ```
 
 ## Using python2
 
 
 ```python
-%%pythontutor2
+%%ipythontutor py=2
 print "Hey"
 original = [1, 2]
 copy = original[:]
 original[0] = 'boom'
 ```
+
+## Other settings
+
+The following list shows the settings that can be tweaked on the magic line. See also [this page about embedding pythontutor](http://pythontutor.com/pytutor-embed-demo.html) for more details on these settings:
+
+
+```python
+from ipythontutor import Magics
+for var, default in Magics.defaults.items():
+    print("{var:>20} - defaults to - {default:<}".format(**locals()))
+```
+
+#### Note on `proto`
+
+The default is to use `https` to reach `pythontutor`, as this is exepcted to work in most cases. If that's not working for you, instead of setting `proto=http` on each magic cell, you can change this globally - like any other default btw - this way:
+
+
+```python
+from ipythontutor import Magics
+Magics.defaults['proto'] = 'http'
+```
+
+## See also
+
+Check out another pure approach, that does not rely on pythontutor, [at the `nbtutor` project](https://github.com/lgpage/nbtutor).
