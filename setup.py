@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='ipythontutor',
-    version='0.0.2',
+    version='0.1.0',
     description='An extension for IPython to embed a pythontutor iframe'
                 ' that can illustrate the code in the current cell.',
     long_description='See https://github.com/parmentelat/ipythontutor/blob/master/README.ipynb',

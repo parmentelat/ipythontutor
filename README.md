@@ -37,12 +37,26 @@ print(reference)
 
 
 ```python
-%%ipythontutor height=400 width=1000
+%%ipythontutor height=400 width=850
 def fact(n):
     return 1 if n <= 1 else n * fact(n-1)
 original = [fact(3), fact(4)]
 reference = original[:]
 original[0] = 'boom'
+print(reference)
+```
+
+## Scaling
+
+If your page is smaller than what pythontutor can reasonably work with, you can specify a scaling ratio.
+
+
+```python
+%%ipythontutor width=600 height=200 ratio=0.7
+import copy
+original = [1, [2, 3]]
+reference = copy.deepcopy(original)
+original[1][0] = 'boom'
 print(reference)
 ```
 
