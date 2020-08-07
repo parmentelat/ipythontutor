@@ -13,6 +13,8 @@ import copy
 import webbrowser
 
 from urllib.parse import urlencode
+from distutils.util import strtobool
+
 from ipywidgets import HTML, Button, Output
 
 from IPython.core.magic import (
@@ -116,21 +118,16 @@ class Magics(CoreMagics):
               .format(request=request, **env)
 
         # ----------------linkButton------------------------
-        # create the button
-        button = Button(description='Ouvrir dans un onglet')
-        my_output = Output()
-        
-        # if button clicked open in a new tab
-        def on_button_clicked(b):
-            with my_output:
-                webbrowser.open_new_tab(url)
+        if strtobool(env['linkButton']):
+            button = Button(description='Ouvrir dans un onglet')
+            output = Output()
 
-        # get click
-        button.on_click(on_button_clicked)
-        
-        # if true show button
-        if env['linkButton'] == 'true':
-            display(button, my_output)
+            def open_in_new_tab(b):
+                with output:
+                    webbrowser.open_new_tab(url)
+
+            button.on_click(open_in_new_tab)
+            display(button, output)
         # ---------------------------------------------------
         
         frameid = self.newid()
