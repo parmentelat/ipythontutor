@@ -83,7 +83,7 @@ print(reference)
 ## Add a button to open pythontutor in a new tab
 
 ```{code-cell} ipython3
-%%ipythontutor height=400 width=850 linkButton=true
+%%ipythontutor linkButton=true
 def fact(n):
     return 1 if n <= 1 else n * fact(n-1)
 original = [fact(3), fact(4)]
