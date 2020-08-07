@@ -1,7 +1,23 @@
+---
+jupytext:
+  cell_metadata_filter: all,-hidden,-heading_collapsed
+  formats: md:myst
+  notebook_metadata_filter: all,-language_info,-toc,-jupytext.text_representation.jupytext_version,-jupytext.text_representation.format_version
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
 
 <span style="float:left;">Licence CC BY-NC-ND</span>
 
 # Embedding `pythontutor.com` illustrations in Jupyter  
+
+this notebook is stored in text (markdown) format using jupytext,
+make sure to have this tool installed if you want to open it locally
 
 ## Installation
 
@@ -17,16 +33,14 @@ As github won't render iframes embedded in a `ipynb`, here's a screenshot
 
 ## Basic Usage
 
-
-```python
+```{code-cell} ipython3
 # required to load the extension
 %load_ext ipythontutor
 ```
 
 In its simplest form, the code in the cell is handed over (as python3) to the excellent http://pythontutor.com/
 
-
-```python
+```{code-cell} ipython3
 %%ipythontutor
 original = reference = [1, 2]
 original[0] = 'boom'
@@ -35,8 +49,7 @@ print(reference)
 
 ## Setting sizes
 
-
-```python
+```{code-cell} ipython3
 %%ipythontutor height=400 width=850
 def fact(n):
     return 1 if n <= 1 else n * fact(n-1)
@@ -48,8 +61,7 @@ print(reference)
 
 ## Link button to pythontutor (open in a new tab)
 
-
-```python
+```{code-cell} ipython3
 %%ipythontutor height=400 width=850 linkButton=true
 def fact(n):
     return 1 if n <= 1 else n * fact(n-1)
@@ -63,8 +75,7 @@ print(reference)
 
 If your page is smaller than what pythontutor can reasonably work with, you can specify a scaling ratio.
 
-
-```python
+```{code-cell} ipython3
 %%ipythontutor width=600 height=200 ratio=0.7
 import copy
 original = [1, [2, 3]]
@@ -75,8 +86,7 @@ print(reference)
 
 ## Using python2
 
-
-```python
+```{code-cell} ipython3
 %%ipythontutor py=2
 print "Hey"
 original = [1, 2]
@@ -88,8 +98,7 @@ original[0] = 'boom'
 
 The following list shows the settings that can be tweaked on the magic line. See also [this page about embedding pythontutor](http://pythontutor.com/pytutor-embed-demo.html) for more details on these settings:
 
-
-```python
+```{code-cell} ipython3
 from ipythontutor import Magics
 for var, default in Magics.defaults.items():
     print(f"{var:>20} - defaults to - {default:<}")
@@ -99,8 +108,7 @@ for var, default in Magics.defaults.items():
 
 The default is to use `https` to reach `pythontutor`, as this is exepcted to work in most cases. If that's not working for you, instead of setting `proto=http` on each magic cell, you can change this globally - like any other default btw - this way:
 
-
-```python
+```{code-cell} ipython3
 from ipythontutor import Magics
 Magics.defaults['proto'] = 'http'
 ```
