@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-A ipython extension that supports cell magics:
- * pythontutor, and
- * pythontutor2
-for visualizing code in an iframe that leverages pythontutor.com
+A ipython extension that supports cell and line magics %ipythontutor
+for visualizing code in an iframe hosted on pythontutor.com
 
 See README.ipynb for examples of how to use it.
 """
@@ -45,6 +43,7 @@ class Magics(CoreMagics):
         'curInstr' : 0,
         'cumulative' : 'false',
         'heapPrimitives' : 'false',
+        'textReferences' : 'false',
         'ratio': 1,
         # view in a new tab if true
         'linkButton' : 'false',
