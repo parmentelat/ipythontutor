@@ -1,31 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
+import setuptools
+from pathlib import Path
 
-setup(
+VERSION_FILE = Path(__file__).parent / "version.py"
+ENV = {}
+with VERSION_FILE.open() as f:
+    exec(f.read(), ENV)                                 # pylint: disable=w0122
+__version__ = ENV['__version__']
+
+with open("README.md") as feed:
+    LONG_DESCRIPTION = feed.read()
+
+setuptools.setup(
     name='ipythontutor',
-    version='0.1.0',
     description='An extension for IPython to embed a pythontutor iframe'
                 ' that can illustrate the code in the current cell.',
-    long_description='See https://github.com/parmentelat/ipythontutor/blob/master/README.ipynb',
-    author='Thierry Parmentelat',
-    author_email='thierry.parmentelat@inria.fr',
     url='https://github.com/parmentelat/ipythontutor',
+    version=__version__,
+    author="Thierry Parmentelat",
+    author_email="thierry.parmentelat@inria.fr",
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type = "text/markdown",
     py_modules=(
         'ipythontutor',
     ),
     install_requires=(
         'ipython',
     ),
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Framework :: IPython',
-        'Intended Audience :: Developers',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 2',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-    ]
 )
