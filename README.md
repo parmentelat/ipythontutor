@@ -46,6 +46,19 @@ original[0] = 'boom'
 print(reference)
 ```
 
+## Link button to pythontutor (open in a new tab)
+
+
+```python
+%%ipythontutor height=400 width=850 linkButton=true
+def fact(n):
+    return 1 if n <= 1 else n * fact(n-1)
+original = [fact(3), fact(4)]
+reference = original[:]
+original[0] = 'boom'
+print(reference)
+```
+
 ## Scaling
 
 If your page is smaller than what pythontutor can reasonably work with, you can specify a scaling ratio.

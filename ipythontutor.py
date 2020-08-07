@@ -10,9 +10,10 @@ See README.ipynb for examples of how to use it.
 """
 
 import copy
+import webbrowser
 
 from urllib.parse import urlencode
-from ipywidgets import HTML
+from ipywidgets import HTML, Button, Output
 
 from IPython.core.magic import (
     Magics as CoreMagics,
@@ -43,6 +44,8 @@ class Magics(CoreMagics):
         'cumulative' : 'false',
         'heapPrimitives' : 'false',
         'ratio': 1,
+        # view in a new tab if true
+        'linkButton' : 'false',
     }
         
 
@@ -98,6 +101,7 @@ class Magics(CoreMagics):
     @cell_magic
     def ipythontutor(self, line, cell):
         env = self.parse_line(line)
+
         pt_env = dict(code = cell,
                       mode = "display",
                       origin = "opt-frontend.js",
@@ -107,8 +111,28 @@ class Magics(CoreMagics):
             pt_env[pass_through] = env[pass_through]
 
         request = urlencode(pt_env)
+        
         url = "{proto}://pythontutor.com/iframe-embed.html#{request}"\
               .format(request=request, **env)
+
+        # ----------------linkButton------------------------
+        # create the button
+        button = Button(description='Ouvrir dans un onglet')
+        my_output = Output()
+        
+        # if button clicked open in a new tab
+        def on_button_clicked(b):
+            with my_output:
+                webbrowser.open_new_tab(url)
+
+        # get click
+        button.on_click(on_button_clicked)
+        
+        # if true show button
+        if env['linkButton'] == 'true':
+            display(button, my_output)
+        # ---------------------------------------------------
+        
         frameid = self.newid()
         # xxx the attempt of inserting a container is so that we can set
         # max-width and max-height, but in this version it's still not quite right
