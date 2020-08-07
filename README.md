@@ -12,12 +12,16 @@ kernelspec:
   name: python3
 ---
 
-<span style="float:left;">Licence CC BY-NC-ND</span>
+Licence CC BY-NC-ND - Thierry Parmentelat
+
++++
 
 # Embedding `pythontutor.com` illustrations in Jupyter  
 
 this notebook is stored in text (markdown) format using jupytext,
 make sure to have this tool installed if you want to open it locally
+
++++
 
 ## Installation
 
@@ -25,11 +29,15 @@ make sure to have this tool installed if you want to open it locally
 $ pip3 install ipythontutor
 ```
 
++++
+
 ## Screeshot
 
 As github won't render iframes embedded in a `ipynb`, here's a screenshot
 
 ![](screenshot.gif)
+
++++
 
 ## Basic Usage
 
@@ -59,18 +67,6 @@ original[0] = 'boom'
 print(reference)
 ```
 
-## Link button to pythontutor (open in a new tab)
-
-```{code-cell} ipython3
-%%ipythontutor height=400 width=850 linkButton=true
-def fact(n):
-    return 1 if n <= 1 else n * fact(n-1)
-original = [fact(3), fact(4)]
-reference = original[:]
-original[0] = 'boom'
-print(reference)
-```
-
 ## Scaling
 
 If your page is smaller than what pythontutor can reasonably work with, you can specify a scaling ratio.
@@ -84,14 +80,16 @@ original[1][0] = 'boom'
 print(reference)
 ```
 
-## Using python2
+## Add a button to open pythontutor in a new tab
 
 ```{code-cell} ipython3
-%%ipythontutor py=2
-print "Hey"
-original = [1, 2]
-copy = original[:]
+%%ipythontutor height=400 width=850 linkButton=true
+def fact(n):
+    return 1 if n <= 1 else n * fact(n-1)
+original = [fact(3), fact(4)]
+reference = original[:]
 original[0] = 'boom'
+print(reference)
 ```
 
 ## Other settings
@@ -111,6 +109,16 @@ The default is to use `https` to reach `pythontutor`, as this is exepcted to wor
 ```{code-cell} ipython3
 from ipythontutor import Magics
 Magics.defaults['proto'] = 'http'
+```
+
+## Using python2
+
+```{code-cell} ipython3
+%%ipythontutor py=2
+print "Hey"
+original = [1, 2]
+copy = original[:]
+original[0] = 'boom'
 ```
 
 ## See also
