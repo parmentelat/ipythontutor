@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-A ipython extension that supports cell and line magics %ipythontutor
+A ipython extension that supports Jupyter cell and line magics 
+%ipythontutor
 for visualizing code in an iframe hosted on pythontutor.com
 
 See README.ipynb for examples of how to use it.
