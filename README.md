@@ -92,7 +92,7 @@ The following list shows the settings that can be tweaked on the magic line. See
 ```python
 from ipythontutor import Magics
 for var, default in Magics.defaults.items():
-    print("{var:>20} - defaults to - {default:<}".format(**locals()))
+    print(f"{var:>20} - defaults to - {default:<}")
 ```
 
 #### Note on `proto`
