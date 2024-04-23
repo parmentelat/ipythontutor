@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-A ipython extension that supports Jupyter cell and line magics 
+A ipython extension that supports Jupyter cell and line magics
 %ipythontutor
 for visualizing code in an iframe hosted on pythontutor.com
 
@@ -32,7 +32,7 @@ class Magics(CoreMagics):
     def newid(self):
         Magics.counter += 1
         return f"ipythontutor{Magics.counter}"
-    
+
 
     # settable attributes on the magic line
     defaults = {
@@ -49,7 +49,7 @@ class Magics(CoreMagics):
         # view in a new tab if true
         'linkButton' : 'false',
     }
-        
+
 
     def parse_line(self, line):
         env = self.defaults.copy()
@@ -75,11 +75,11 @@ class Magics(CoreMagics):
         except:
             print("ipythontutor could not adjust sizes")
         return env
-                
+
 
     def ratio_style(self, env):
         """
-        the css style to attach to the <iframe> object to 
+        the css style to attach to the <iframe> object to
         obtain the desired ratio
         """
         # stay safe in normal mode
@@ -95,7 +95,7 @@ class Magics(CoreMagics):
         offset_y = int(float(env['height'])*alpha)
         transform = f"translate(-{offset_x}px, -{offset_y}px) scale({env['ratio']})"
         return f"{{transform: {transform};}}"
-        
+
 
     @cell_magic
     def ipythontutor(self, line, cell):
@@ -110,7 +110,7 @@ class Magics(CoreMagics):
             pt_env[pass_through] = env[pass_through]
 
         request = urlencode(pt_env)
-        
+
         url = f"{env['proto']}://pythontutor.com/iframe-embed.html#{request}"
 
         # ----------------linkButton------------------------
@@ -125,7 +125,7 @@ class Magics(CoreMagics):
             button.on_click(open_in_new_tab)
             display(button, output)
         # ---------------------------------------------------
-        
+
         frameid = self.newid()
         # xxx the attempt of inserting a container is so that we can set
         # max-width and max-height, but in this version it's still not quite right
@@ -145,7 +145,7 @@ class Magics(CoreMagics):
         return HTML(fstyle + cstyle + container)
 
 
-#################### make it an extension    
+#################### make it an extension
 def load_ipython_extension(ipython):
     ipython.register_magics(Magics)
 
