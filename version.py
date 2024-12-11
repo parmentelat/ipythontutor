@@ -1,5 +1,5 @@
-"""
-defines the version for package asynciojobs
-"""
+import importlib
+import importlib.metadata
 
-__version__ = "0.2.0"
+# from pyproject.toml
+__version__ = importlib.metadata.version("ipythontutor")
