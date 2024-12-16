@@ -2,12 +2,12 @@
 name = "ipythontutor"
 version = "0.3.0"
 description = "An extension for IPython to embed a pythontutor iframe"
-license = "CC-BY-NC-4.0"
+license = { text = "CC-BY-NC-4.0"}
 readme = "README.md"
 authors = [
     {name = "Thierry Parmentelat", email = "thierry.parmentelat@inria.fr"},
 ]
-keywords=['pythontutor', 'Python', 'IPython', 'notebook', 'Jupyter']
+keywords = ['pythontutor', 'Python', 'IPython', 'notebook', 'Jupyter']
 requires-python = ">=3.10"
 dependencies = [
     'ipython',
