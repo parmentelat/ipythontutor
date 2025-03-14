@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.4.0 2025 Mar 14
+
+* rewrite without the ipywidgets dependency for mystmd aka jb2
+
 ## 0.3.0 2024 Dec 11
 
 * package with pyproject.toml

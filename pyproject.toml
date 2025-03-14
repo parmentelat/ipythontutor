@@ -1,6 +1,6 @@
 [project]
 name = "ipythontutor"
-version = "0.3.0"
+version = "0.4.0"
 description = "An extension for IPython to embed a pythontutor iframe"
 license = { text = "CC-BY-NC-4.0"}
 readme = "README.md"
