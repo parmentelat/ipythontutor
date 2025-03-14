@@ -25,8 +25,8 @@ make sure to have this tool installed if you want to open it locally
 
 ## Installation
 
-```
-$ pip3 install ipythontutor
+```bash
+pip3 install ipythontutor
 ```
 
 +++
@@ -104,7 +104,7 @@ for var, default in Magics.defaults.items():
 
 #### Note on `proto`
 
-The default is to use `https` to reach `pythontutor`, as this is exepcted to work in most cases. If that's not working for you, instead of setting `proto=http` on each magic cell, you can change this globally - like any other default btw - this way:
+The default is to use `https` to reach `pythontutor`, as this is expected to work in most cases. If that's not working for you, instead of setting `proto=http` on each magic cell, you can change this globally - like any other default btw - this way:
 
 ```{code-cell} ipython3
 from ipythontutor import Magics
