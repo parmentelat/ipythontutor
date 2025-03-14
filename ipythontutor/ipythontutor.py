@@ -1,35 +1,47 @@
-# -*- coding: utf-8 -*-
-
 """
 A ipython extension that supports Jupyter cell and line magics
 %ipythontutor
 for visualizing code in an iframe hosted on pythontutor.com
 
-See README.ipynb for examples of how to use it.
+See README.md for examples of how to use it.
 """
 
-import copy
-import webbrowser
+# pylint: disable=broad-except,bare-except
 
 from urllib.parse import urlencode
-from distutils.util import strtobool
 
-from ipywidgets import HTML, Button, Output
+from IPython.core.display import HTML
 
 from IPython.core.magic import (
     Magics as CoreMagics,
     magics_class,
     cell_magic,
-    line_magic,
 )
+
+
+def strtobool(val):
+    """
+    formerly in distutils.util
+    """
+    val = val.strip().lower()
+    if val in ('y', 'yes', 't', 'true', 'on', '1'):
+        return True
+    return False
+
 
 ####################
 @magics_class
 class Magics(CoreMagics):
+    """
+    The ipythontutor magic
+    """
 
-    # for generating ids
     counter = 0
+
     def newid(self):
+        """
+        for generating ids
+        """
         Magics.counter += 1
         return f"ipythontutor{Magics.counter}"
 
@@ -52,6 +64,9 @@ class Magics(CoreMagics):
 
 
     def parse_line(self, line):
+        """
+        parse the line and return a dictionary
+        """
         env = self.defaults.copy()
         assigns = line.split()
         for assign in assigns:
@@ -61,19 +76,26 @@ class Magics(CoreMagics):
                     env[var] = value
                 else:
                     print(f"ipythontutor unknown parameter >{var}< - ignored")
-            except:
+            except Exception as exc:
                 print(f"ipythontutor - cannot understand {assign} - ignored")
+                print(f"{type(exc)} - {exc}")
+
         # because the ratio applies on the iframe as a whole
         # there is a need to adjust the size so that width and height
         # are significant in the notebook space, not the iframe space
         try:
             env['_ratio'] = fratio = float(env['ratio'])
-            try: env['_ptwidth'] = float(env['width']) / fratio
-            except: pass
-            try: env['_ptheight'] = float(env['height']) / fratio
-            except: pass
-        except:
+            try:
+                env['_ptwidth'] = float(env['width']) / fratio
+            except:
+                pass
+            try:
+                env['_ptheight'] = float(env['height']) / fratio
+            except:
+                pass
+        except Exception as exc:
             print("ipythontutor could not adjust sizes")
+            print(f"{type(exc)} - {exc}")
         return env
 
 
@@ -99,6 +121,9 @@ class Magics(CoreMagics):
 
     @cell_magic
     def ipythontutor(self, line, cell):
+        """
+        The ipythontutor magic
+        """
         env = self.parse_line(line)
 
         pt_env = dict(code = cell,
@@ -113,21 +138,8 @@ class Magics(CoreMagics):
 
         url = f"{env['proto']}://pythontutor.com/iframe-embed.html#{request}"
 
-        # ----------------linkButton------------------------
-        if strtobool(env['linkButton']):
-            button = Button(description='Ouvrir dans un onglet')
-            output = Output()
-
-            def open_in_new_tab(b):
-                with output:
-                    webbrowser.open_new_tab(url)
-
-            button.on_click(open_in_new_tab)
-            display(button, output)
-        # ---------------------------------------------------
-
         frameid = self.newid()
-        # xxx the attempt of inserting a container is so that we can set
+        # the attempt of inserting a container is so that we can set
         # max-width and max-height, but in this version it's still not quite right
         # and some real estate gets lots in the mix...
         containerid = self.newid()
@@ -142,13 +154,47 @@ class Magics(CoreMagics):
                   f"</style>")
         container = f'<div id={containerid}>{iframe}</div>'
         #print(fstyle); print(cstyle); print(container)
-        return HTML(fstyle + cstyle + container)
+        html = fstyle + cstyle + container
+
+        # ----------------linkButton------------------------
+        if strtobool(env['linkButton']):
+            button = f'''
+                <div class="link-button">
+                <button onclick="window.open('{url}', '_blank');">
+                Ouvrir dans un onglet
+                </button>
+                </div>
+            '''
+            # pylint: disable=fstring-without-interpolation
+            button_style = f'''
+                <style>
+                .link-button {{
+                    display: flex;
+                    justify-content: center;
+                    button {{
+                        border-radius: 4px;
+                        padding: 5px;
+                        background-color: #4CAF50;
+                        color: white;
+                        margin-bottom: 5px;
+                    }}
+                }}
+                </style>
+            '''
+            html = button_style + button + html
+
+        return HTML(html)
 
 
 #################### make it an extension
 def load_ipython_extension(ipython):
+    """
+    required by IPython
+    """
     ipython.register_magics(Magics)
 
 
-def unload_ipython_extension(ipython):
-    pass
+def unload_ipython_extension(_ipython):
+    """
+    required by IPython
+    """
